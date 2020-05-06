@@ -23,6 +23,7 @@ cur = db.cursor()
 for ip in tqdm(network):
     try:
         r = requests.get(f"http://{ip}:8080/get-json", timeout=1)
+        r.raise_for_status()
     except RequestException:
         continue
     data = r.json()

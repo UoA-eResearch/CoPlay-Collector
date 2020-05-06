@@ -22,7 +22,7 @@ cur = db.cursor()
 
 for ip in tqdm(network):
     try:
-        r = requests.get(f"http://{ip}:8080/get-json", timeout=1)
+        r = requests.get(f"http://{ip}:8080/get-json", timeout=(3.05, 27)) # connect, read
         r.raise_for_status()
     except RequestException:
         continue

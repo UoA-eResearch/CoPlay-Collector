@@ -9,8 +9,11 @@ import mysql.connector
 import json
 import config
 
-network = list(IPNetwork(config.subnet))
-print(f"Scanning {network[0]} to {network[-1]}")
+try:
+    network = list(IPNetwork(config.subnet))
+    print(f"Scanning {network[0]} to {network[-1]}")
+except:
+    network = config.ips
 
 db = mysql.connector.connect(
   host="localhost",

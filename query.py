@@ -22,6 +22,16 @@ filtered_results = []
 for r in results:
     j = json.loads(r["json"])
     battery = f'{j["battery"]["level"]}%{" and charging" if j["battery"]["charging"] else ", not charging"}'
-    filtered_results.append([r["serial"], r["timestamp"], r["ip"], battery, j["sysInfo"]["buildDisplay"], len(j["appsList"])])
+    appStatus = "OK"
+    for desired_app in config.apps:
+      found = False
+      for installed_app in j["appsList"]:
+        if desired_app["packageName"] == installed_app["packageName"]:
+          found = True
+          if desired_app["versionName"] != installed_app["versionName"]:
+            appStatus = f'{desired_app["packageName"]} wants {desired_app["versionName"]} but {installed_app["versionName"]} is installed'
+      if not found:
+        appStatus = f'{desired_app["packageName"]} not installed'
+    filtered_results.append([r["serial"], r["timestamp"], r["ip"], battery, j["sysInfo"]["buildDisplay"], len(j["appsList"]), appStatus])
 
-print(tabulate(filtered_results, headers=["Serial", "Last updated", "Last IP", "Last Battery State", "OS version", "Installed apps count"]))
+print(tabulate(filtered_results, headers=["Serial", "Last updated", "Last IP", "Last Battery State", "OS version", "Installed apps count", "App status"]))

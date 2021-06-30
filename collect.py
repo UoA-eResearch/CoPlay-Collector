@@ -16,10 +16,10 @@ except:
     network = config.ips
 
 db = mysql.connector.connect(
-  host="localhost",
+  host=config.host,
   user=config.user,
-  passwd=config.passwd,
-  database="quest"
+  password=config.password,
+  database=config.database
 )
 cur = db.cursor()
 

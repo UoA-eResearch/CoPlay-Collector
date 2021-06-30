@@ -6,9 +6,9 @@ import config
 import json
 
 db = mysql.connector.connect(
-  host="localhost",
+  host=config.host,
   user=config.user,
-  passwd=config.passwd,
+  password=config.password,
   database="quest"
 )
 cur = db.cursor(dictionary=True)
